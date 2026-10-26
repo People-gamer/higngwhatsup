@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGate Test</title>
+  <style>
+    body {
+      background: #101629;
+      color: white;
+      font: 18px system-ui, sans-serif;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    button {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>OpenGate is alive! 🚀</h1>
+  <p>If you can read this, GitHub Pages is working.</p>
+  <input id="site" placeholder="example.com">
+  <button id="go">Load website</button>
+  <p id="status">Ready</p>
+  <iframe id="viewer" title="Website viewer"
+    style="width:100%;height:60vh;border:0;margin-top:20px"
+    hidden></iframe>
+
+  <script>
+    document.getElementById("go").addEventListener("click", () => {
+      const input = document.getElementById("site").value.trim();
+      const status = document.getElementById("status");
+      const frame = document.getElementById("viewer");
+
+      try {
+        const url = new URL(
+          /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(input)
+            ? input : "https://" + input
+        );
+
+        if (!["https:", "http:"].includes(url.protocol)) {
+          throw new Error("Use an HTTP or HTTPS address.");
+        }
+
+        frame.src = url.href;
+        frame.hidden = false;
+        status.textContent = "Requested: " + url.href;
+      } catch (error) {
+        status.textContent = error.message || "Invalid address.";
+      }
+    });
+  </script>
+</body>
+</html>
